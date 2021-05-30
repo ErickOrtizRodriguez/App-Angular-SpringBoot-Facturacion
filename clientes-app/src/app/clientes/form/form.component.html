@@ -1,0 +1,118 @@
+<ul class="alert alert-danger" *ngIf="errores.length > 0">
+    <li *ngFor="let err of errores">
+        {{err}}
+    </li>
+</ul>
+<div class="card bg-dark text-white mt-4">
+    <div class="car-header m-4">
+        <h4>Crear Usuarios</h4>
+    </div>
+    <div class="card-body">
+        <form #dataForm = "ngForm">
+            <div class="form-group row pb-2">
+                <label for="nombre" class="col-form-label col-sm-2">Nombre</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" [(ngModel)]="clientes.nombre" name="nombre" 
+                    required
+                      minlength="4" #nombre="ngModel">
+                      <!-- required -->
+                    <div class="alert alert-danger"
+                     *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
+                        <div *ngIf="nombre.errors?.required">
+                            Debe ingresar un nombre
+                        </div>
+                        <div *ngIf="nombre.errors?.minlength">
+                            Nombre debe tener minimo 4 Caracteres
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row pb-2">
+                <label for="apellido" class="col-form-label col-sm-2">Apellido</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" [(ngModel)]="clientes.apellido" name="apellido"
+                    required
+                     #apellido="ngModel">
+                     <!-- required -->
+                    <div class="alert alert-danger"
+                    *ngIf="apellido.invalid && (apellido.dirty || apellido.touched)">
+                       <div *ngIf="apellido.errors?.required">
+                           Debe ingresar un apellido
+                       </div>
+                   </div>
+                </div>
+            </div>
+            <div class="form-group row pb-2">
+                <label for="emial" class="col-form-label col-sm-2">Email</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" [(ngModel)]="clientes.email" name="email"
+                    required email
+                      #email="ngModel">
+                     <!-- required email -->
+                    <div class="alert alert-danger"
+                    *ngIf="email.invalid && (email.dirty || email.touched)">
+                       <div *ngIf="email.errors?.required">
+                           Debe ingresar un email
+                       </div>
+                       <div *ngIf="email.errors?.email">
+                        Debe tener un formato valido
+                    </div>
+                   </div>
+                </div>
+            </div>
+
+            <!-- <div class="form-group row">
+            
+                <label for="createAt" class="col-form-label col-sm-2">Fecha</label>
+                <div class="col-sm-6">
+                    <input  type="date" class="form-control" [(ngModel)]="clientes.createAt" name="createAt">
+
+                </div>
+                
+            </div> -->
+
+            <div class="form-group row pb-2">
+                <label for="createAt" class="col-form-label col-sm-2">Fecha</label>
+                <div class="col-sm-6">
+                     <input  matInput [matDatepicker]="picker" class="form-control" [(ngModel)]="clientes.createAt" name="createAt"
+                     required 
+                     style="display:inline; width:300px;">
+                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                     <mat-datepicker #picker></mat-datepicker>
+                     <!-- required -->
+                    <!-- <div class="alert alert-danger"
+                    *ngIf="apellido.invalid && (apellido.dirty || apellido.touched)">
+                       <div *ngIf="apellido.errors?.required">
+                           Debe ingresar un apellido
+                       </div>
+                   </div> -->
+                </div>
+            </div>
+
+            <div class="form-group row pb-2">
+                <label for="region" class="col-form-label col-sm-2">Region</label>
+                <div class="col-sm-6">
+                     <select *ngIf="compararRegion" [compareWith]="compararRegion" class="form-control" [(ngModel)]="clientes.region" name="region"
+                     required 
+                     style="width:500px;">
+                    <option [ngValue]="undefined">--Seleccionar Region--</option>
+                     <option *ngFor="let region of regiones" [ngValue]="region">{{region.nombre}}</option>
+
+                     </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <button class="btn btn-primary" role="button" (click)='create()'
+                    *ngIf = "!clientes.id else upda"
+                    [disabled]="!dataForm.form.valid">Guardar</button>
+                    <ng-template #upda> 
+                        <button class="btn btn-primary" role="button" (click)='update()'
+                        [disabled]="!dataForm.form.valid">Editar</button>
+                    </ng-template>   
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
