@@ -55,6 +55,7 @@ public class Cliente implements Serializable{
 //    public void prePersist(){
 //        createAt = new Date();
 //    }
+    @JsonIgnoreProperties({"clientes","hibernateLazyInitializer", "handler"})
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "cliente",cascade = CascadeType.ALL)
     private List<Factura> facturas;
 

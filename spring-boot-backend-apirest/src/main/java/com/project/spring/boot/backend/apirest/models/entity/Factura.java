@@ -1,5 +1,6 @@
 package com.project.spring.boot.backend.apirest.models.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.javafx.geom.transform.Identity;
 import org.springframework.context.annotation.Primary;
 
@@ -23,9 +24,11 @@ public class Factura implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date createAt;
 
+    @JsonIgnoreProperties({"facturas", "hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)
     private Cliente cliente;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name="factura_id")
     private List<ItemFactura> items;
