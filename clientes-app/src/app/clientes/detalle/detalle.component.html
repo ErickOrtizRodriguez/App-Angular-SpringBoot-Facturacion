@@ -46,6 +46,9 @@
                     </div>
                 </div>
                 <div class="row">
+                     <button type="button" name="button" [routerLink]="['/facturas/form', cliente.id]" (click)="cerrarModal()" class="btn btn-primary btn-sm">Crear Factura</button>
+                </div>
+                <div class="row">
                     <div class="alert alert-info my-4" *ngIf="cliente.facturas.length == 0">
                         El Cliente {{cliente.nombre}} {{cliente.apellido}} no Tiene Facturas Asignadas!
                     </div>

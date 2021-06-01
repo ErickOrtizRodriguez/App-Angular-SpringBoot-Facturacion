@@ -23,6 +23,7 @@ import { RoleGuard } from './usuarios/guards/role.guard';
 import { TokenInterceptor } from './usuarios/interceptors/token-interceptor';
 import { AuthInterceptor } from './usuarios/interceptors/auth-interceptor';
 import { DetalleFacturaComponent } from './facturas/detalle-factura.component';
+import { FacturasComponent } from './facturas/facturas.component';
 
 registerLocaleData(localeES,'es');
 const routes: Routes =[
@@ -35,6 +36,7 @@ const routes: Routes =[
   {path: 'clientes/ver/:id', component: DetalleComponent},
   {path: 'login', component: LoginComponent},
   {path: 'facturas/:id', component: DetalleFacturaComponent},
+  {path: 'facturas/form/:clienteId', component: FacturasComponent},
 ];
 @NgModule({
   declarations: [
@@ -48,6 +50,7 @@ const routes: Routes =[
     DetalleComponent,
     LoginComponent,
     DetalleFacturaComponent,
+    FacturasComponent,
   ],
   imports: [
     BrowserModule,
