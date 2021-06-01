@@ -49,7 +49,7 @@
                     <div class="alert alert-info my-4" *ngIf="cliente.facturas.length == 0">
                         El Cliente {{cliente.nombre}} {{cliente.apellido}} no Tiene Facturas Asignadas!
                     </div>
-                    <table class="table table table-bordered table-striped my-4" *ngIf="cliente.facturas.length>0">
+                    <table class="table table table-bordered table-striped my-4" *ngIf="cliente.facturas.length > 0">
                         <thead>
                             <tr>
                                 <th>Folio</th>
@@ -65,7 +65,7 @@
                                 <td>{{factura.descripcion}}</td>
                                 <td>{{factura.createAt}}</td>
                                 <td>{{factura.total}}</td>
-                                <td><button class="btn btn-primary btn-sm" type="button" [routerLink]="['/facturas', factura.id]">Ver</button></td>
+                                <td><button class="btn btn-primary btn-sm" type="button" (click)="cerrarModal()" [routerLink]="['/facturas', factura.id]">Ver</button></td>
         
                             </tr>
                         </tbody>
