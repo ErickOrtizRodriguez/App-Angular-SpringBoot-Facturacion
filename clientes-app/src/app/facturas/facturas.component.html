@@ -4,36 +4,55 @@
         <h4 class="card-title">
             <a routerLink="/clientes" class="btn btn-light btn-xs">&laquo; Volver</a>
         </h4>
-    <form action="">
+        <form action="">
 
-        <div class="form-group row pb-2" *ngIf="factura.cliente">
-            <label for="cliente" class="col-form-label col-sm-2">Cliente</label>
-            <div class="col-sm-6">
-                <input type="text" class="form-control" value="{{factura.cliente.nombre}} {{factura.cliente.apellido}}" name="cliente" 
-                disabled>
+            <div class="form-group row pb-2" *ngIf="factura.cliente">
+                <label for="cliente" class="col-form-label col-sm-2">Cliente</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control"
+                        value="{{factura.cliente.nombre}} {{factura.cliente.apellido}}" name="cliente" disabled>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group row pb-2">
-            <label for="descripcion" class="col-form-label col-sm-2">Descripcion</label>
-            <div class="col-sm-6">
-                <input type="text" class="form-control" [(ngModel)]="factura.descripcion" name="descripcion" 
-                required>
+            <div class="form-group row pb-2">
+                <label for="descripcion" class="col-form-label col-sm-2">Descripcion</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" [(ngModel)]="factura.descripcion" name="descripcion"
+                        required>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group row pb-2">
-            <label for="observacion" class="col-form-label col-sm-2">Observacion</label>
-            <div class="col-sm-6">
-                <textarea class="form-control" [(ngModel)]="factura.observacion" name="observacion"></textarea>
+            <div class="form-group row pb-2">
+                <label for="observacion" class="col-form-label col-sm-2">Observacion</label>
+                <div class="col-sm-6">
+                    <textarea class="form-control" [(ngModel)]="factura.observacion" name="observacion"></textarea>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group row pb-2">
-            <div class="col-sm-6">
-                <input type="submit" value="Crear Factura" class="btn btn-secondary">
+            <div class="form-group row pb-2" class="text-info">
+                <div class="col-sm-6">
+                        <mat-form-field class="example-full-width">
+                          <mat-label class="lab">Añadir Producto</mat-label>
+                          <input class="text-info" type="text"
+                                 placeholder="Add Producto"
+                                 aria-label="Producto"
+                                 matInput
+                                 [formControl]="myControl"
+                                 [matAutocomplete]="auto">
+                          <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let producto of productosFiltrados | async" [value]="producto">
+                              {{producto}}
+                            </mat-option>
+                          </mat-autocomplete>
+                        </mat-form-field>
+                </div>
             </div>
-        </div>
-    </form>
+
+            <div class="form-group row pb-2">
+                <div class="col-sm-6">
+                    <input type="submit" value="Crear Factura" class="btn btn-secondary">
+                </div>
+            </div>
+        </form>
     </div>
 </div>
