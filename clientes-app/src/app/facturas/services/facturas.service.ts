@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/usuarios/auth.service';
 import { Factura } from '../models/factura';
+import { Producto } from '../models/producto';
 
 @Injectable({
   providedIn: 'root'
@@ -25,5 +26,9 @@ export class FacturasService {
 
   deleteFactura(id:number):Observable<void>{
     return this.http.delete<void>(`${this.url}/${id}`);
+  }
+
+  filtrarProductos(term:string):Observable<Producto[]>{
+    return this.http.get<Producto[]>(`${this.url}/filtrar-productos/${term}`);
   }
 }
