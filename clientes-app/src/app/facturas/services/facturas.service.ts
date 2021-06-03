@@ -31,4 +31,8 @@ export class FacturasService {
   filtrarProductos(term:string):Observable<Producto[]>{
     return this.http.get<Producto[]>(`${this.url}/filtrar-productos/${term}`);
   }
+
+  crearFactura(factura: Factura):Observable<Factura>{
+    return this.http.post<Factura>(this.url,factura);
+  }
 }

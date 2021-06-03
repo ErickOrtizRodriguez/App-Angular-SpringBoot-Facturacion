@@ -2,9 +2,10 @@ import { ValueTransformer } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { flatMap, map, mergeMap, startWith } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 import { ClienteService } from '../clientes/cliente.service';
 import { Factura } from './models/factura';
 import { ItemFactura } from './models/item-factura';
@@ -23,10 +24,23 @@ export class FacturasComponent implements OnInit {
   myControl = new FormControl();
   productosFiltrados!: Observable<Producto[]>;
 
+  Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
+
   constructor(
     private clienteService:ClienteService,
     private activatedRoute:ActivatedRoute,
-    private facturaService:FacturasService
+    private facturaService:FacturasService,
+    private router:Router
   ) { }
 
   ngOnInit(): void {
@@ -58,9 +72,13 @@ export class FacturasComponent implements OnInit {
     let productoSelected = event.option.value as Producto;
     console.log(productoSelected);
 
-    let nuevoItem = new ItemFactura();
-    nuevoItem.producto = productoSelected;
-    this.factura.items.push(nuevoItem); 
+    if(this.existeItems(productoSelected.id)){
+      this.incrementaCantidad(productoSelected.id);
+    }else{
+      let nuevoItem = new ItemFactura();
+      nuevoItem.producto = productoSelected;
+      this.factura.items.push(nuevoItem); 
+    }
 
     this.myControl.setValue('');
     event.option.focus();
@@ -69,7 +87,9 @@ export class FacturasComponent implements OnInit {
 
   actualizaCantidad(id:number,event:any): void{
     let cantidad:number = event.target.value as number;
-
+    if(cantidad == 0){
+     return this.eliminarItemFactura(id);
+    }
     this.factura.items = this.factura.items.map((item:ItemFactura)=>{
       if(id === item.producto.id){
         item.cantidad = cantidad;
@@ -77,5 +97,39 @@ export class FacturasComponent implements OnInit {
       return item;
     });
   }
+
+  existeItems(id:number): boolean {
+    let existe = false;
+    this.factura.items.forEach((item: ItemFactura) =>{
+      if(id === item.producto.id){
+        existe=true;
+      }
+    });
+    return existe;
+  }
+
+  incrementaCantidad(id:number):void{
+    this.factura.items = this.factura.items.map((item:ItemFactura)=>{
+      if(id === item.producto.id){
+        ++item.cantidad;
+      }
+      return item;
+    });
+  }
+
+eliminarItemFactura(id:number):void{
+  this.factura.items = this.factura.items.filter((item: ItemFactura)=> id !== item.producto.id);
+}
+
+crearFactura():void {
+  console.log("Factura creada",this.factura);
+  this.facturaService.crearFactura(this.factura).subscribe(factura =>{
+    this.Toast.fire({
+      icon: 'success',
+      title:  `Factura Creada Correctamente!`
+    })
+    this.router.navigate(['/clientes']);
+  });
+}
 
 }
