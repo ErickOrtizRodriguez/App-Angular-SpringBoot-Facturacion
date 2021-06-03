@@ -121,6 +121,7 @@ eliminarItemFactura(id:number):void{
   this.factura.items = this.factura.items.filter((item: ItemFactura)=> id !== item.producto.id);
 }
 
+/* metodo crear sin validacion
 crearFactura():void {
   console.log("Factura creada",this.factura);
   this.facturaService.crearFactura(this.factura).subscribe(factura =>{
@@ -130,6 +131,22 @@ crearFactura():void {
     })
     this.router.navigate(['/clientes']);
   });
+}*/
+crearFactura(facturaForm: any):void {
+  console.log("Factura creada",this.factura);
+  if(this.factura.items.length ==0){
+    this.myControl.setErrors({'invalid': true});
+  }
+  if(facturaForm.form.valid && this.factura.items.length >0){
+    this.facturaService.crearFactura(this.factura).subscribe(factura =>{
+      this.Toast.fire({
+        icon: 'success',
+        title:  `Factura Creada Correctamente!`
+      })
+      this.router.navigate(['/clientes']);
+    });
+  }
+ 
 }
 
 }

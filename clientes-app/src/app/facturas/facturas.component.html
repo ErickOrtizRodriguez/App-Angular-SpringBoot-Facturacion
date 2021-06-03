@@ -4,7 +4,7 @@
         <h4 class="card-title">
             <a routerLink="/clientes" class="btn btn-light btn-xs">&laquo; Volver</a>
         </h4>
-        <form action="">
+        <form #facturaForm="ngForm">
 
             <div class="form-group row pb-2" *ngIf="factura.cliente">
                 <label for="cliente" class="col-form-label col-sm-2">Cliente</label>
@@ -18,7 +18,10 @@
                 <label for="descripcion" class="col-form-label col-sm-2">Descripcion</label>
                 <div class="col-sm-6">
                     <input type="text" class="form-control" [(ngModel)]="factura.descripcion" name="descripcion"
-                        required>
+                        required #descripcion="ngModel">
+                    <div class="alert alert-danger" *ngIf="descripcion.invalid && descripcion.touched || descripcion.invalid && facturaForm.submitted">
+                            Debe ingresar la Descripcion de la Factura!
+                    </div>
                 </div>
             </div>
 
@@ -45,6 +48,9 @@
                             </mat-option>
                           </mat-autocomplete>
                         </mat-form-field>
+                        <div class="alert alert-danger" *ngIf="myControl.invalid && facturaForm.submitted">
+                            Debe ingresar Productos a la Factura!
+                    </div>
                 </div>
             </div>
             <div class="alert alert-info my-4" *ngIf="factura.items.length == 0">
@@ -77,7 +83,9 @@
 
             <div class="form-group row pb-2">
                 <div class="col-sm-6">
-                    <input type="submit" value="Crear Factura" (click)="crearFactura()" class="btn btn-secondary">
+                    <!-- <input type="submit" value="Crear Factura" (click)="crearFactura()" [disabled]="facturaForm.form.invalid || factura.items.length == 0"class="btn btn-secondary"> -->
+                    <input type="submit" value="Crear Factura" (click)="crearFactura(facturaForm)" class="btn btn-secondary">
+
                 </div>
             </div>
         </form>
